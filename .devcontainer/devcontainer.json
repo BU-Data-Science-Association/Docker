@@ -1,0 +1,94 @@
+{
+  "name": "Docker Workshop - Data Science Environment",
+  "build": {
+    "context": "..",
+    "dockerfile": "../Dockerfile"
+  },
+
+  // Configure tool-specific properties
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": false,
+        "python.linting.flake8Enabled": true,
+        "python.formatting.provider": "black",
+        "python.formatting.blackPath": "/usr/local/bin/black",
+        "jupyter.askForKernelRestart": false,
+        "jupyter.interactiveWindow.textEditor.executeSelection": true,
+        "files.associations": {
+          "*.ipynb": "jupyter-notebook"
+        },
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+
+      // Install useful VS Code extensions
+      "extensions": [
+        "ms-python.python",
+        "ms-python.flake8",
+        "ms-python.black-formatter",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.jupyter-keymap",
+        "ms-toolsai.jupyter-renderers",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode.hexeditor",
+        "streetsidesoftware.code-spell-checker",
+        "ms-python.isort",
+        "donjayamanne.githistory",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+
+  // Forward ports for Jupyter and other services
+  "forwardPorts": [8888, 8080, 3000],
+  "portsAttributes": {
+    "8888": {
+      "label": "Jupyter Lab",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "HTTP Server",
+      "onAutoForward": "ignore"
+    },
+    "3000": {
+      "label": "Development Server",
+      "onAutoForward": "ignore"
+    }
+  },
+
+  // Use 'postCreateCommand' to run commands after the container is created
+  "postCreateCommand": "echo '🐳 Docker Workshop Environment Ready! 🚀' && echo 'Run: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root' && echo 'Or use the Jupyter extension in VS Code'",
+
+  // Uncomment to connect as a non-root user
+  "remoteUser": "vscode",
+
+  // Set container environment variables
+  "containerEnv": {
+    "JUPYTER_ENABLE_LAB": "yes",
+    "WORKSHOP_NAME": "Docker Data Science Workshop"
+  },
+
+  // Mount the workspace folder to /workspace
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace",
+
+  // Features to add to the dev container
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  // Configure container lifecycle
+  "shutdownAction": "stopContainer",
+
+  // Additional container arguments
+  "runArgs": ["--name", "docker-workshop-container"],
+
+  // Mount additional volumes if needed
+  "mounts": [
+    "source=${localWorkspaceFolder}/.devcontainer,target=/workspace/.devcontainer,type=bind,consistency=cached"
+  ]
+}

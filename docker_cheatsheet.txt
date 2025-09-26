@@ -1,0 +1,26 @@
+Terminal Commands
+
+cd <folder-name>
+cd ..
+mkdir <folder-name>
+ls
+open 
+touch
+
+// Docker commands
+docker images
+docker build -t <image-name> .
+docker run --rm <image-name> 
+
+// Sharing
+docker login
+
+// SAME SYSTEMS
+docker tag <image-name> <username>/<image-name>:latest
+docker push <username>/<image-name>:latest
+
+// DIFFERENT SYSTEMS
+docker buildx build --platform linux/amd64,linux/arm64 -t <username>/<image-name>:latest --push .
+
+// Python script example
+print(“hello world”, flush=True)
