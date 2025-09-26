@@ -1,5 +1,4 @@
-Terminal Commands
-
+// Terminal Commands
 cd <folder-name>
 cd ..
 mkdir <folder-name>
@@ -12,7 +11,7 @@ docker images
 docker build -t <image-name> .
 docker run --rm <image-name> 
 
-// Sharing
+// Docker sharing
 docker login
 
 // SAME SYSTEMS
