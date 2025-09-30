@@ -21,6 +21,9 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libpng-dev \
     libfreetype6-dev \
+    build-essential \
+    python3-dev \
+    pkg-config \
     procps \
     && rm -rf /var/lib/apt/lists/*
 
@@ -32,11 +35,10 @@ COPY requirements.txt .
 
 # Install Python packages
 RUN pip install -r requirements.txt
-
 # Create a non-root user for security
+
 RUN groupadd --gid 1000 vscode \
     && useradd --uid 1000 --gid vscode --shell /bin/bash --create-home vscode
-
 # Set up Jupyter configuration
 RUN mkdir -p /home/vscode/.jupyter && \
     echo "c.NotebookApp.ip = '0.0.0.0'" >> /home/vscode/.jupyter/jupyter_notebook_config.py && \
@@ -44,7 +46,6 @@ RUN mkdir -p /home/vscode/.jupyter && \
     echo "c.NotebookApp.open_browser = False" >> /home/vscode/.jupyter/jupyter_notebook_config.py && \
     echo "c.NotebookApp.allow_root = True" >> /home/vscode/.jupyter/jupyter_notebook_config.py && \
     chown -R vscode:vscode /home/vscode/.jupyter
-
 # Switch to non-root user
 USER vscode
 
